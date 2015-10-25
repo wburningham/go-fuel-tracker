@@ -4,21 +4,24 @@ import (
 	"time"
 )
 
+// TODO do I need a mutex here for an in memory DAO
+
 type EntryDAO interface {
-	getById(id string) (Entry, error)
+	GetById(id string) (Entry, error)
 	// getAll() []Entry..?, error
-	addEntry(entry Entry) (string, error)
+	AddEntry(entry Entry) (string, error)
 	// deleteEntry(is string) error
 }
 
-type FuelEntryDAO struct{}
+type InMemoryFuelEntryDAO struct{}
 
-func (f *FuelEntryDAO) getById(id string) (Entry, error) {
-	time.Sleep(time.Duration(3*time.Second))
-	return &Entry{Id: "GUID", Gallons: 12, Distance: 248}
+func (f *InMemoryFuelEntryDAO) GetById(id string) (Entry, error) {
+	time.Sleep(time.Duration(1 * time.Second))
+	// TODO why is the below not &Entry{...}
+	return Entry{Id: "GUID", Gallons: 12, Distance: 248}, nil
 }
 
-func (f *FuelEntryDAO) addEntry(entry Entry) (string, error) {
-	time.Sleep(time.Duration(3*time.Second))
-	return "New GUID":
+func (f *InMemoryFuelEntryDAO) AddEntry(entry Entry) (string, error) {
+	time.Sleep(time.Duration(1 * time.Second))
+	return "New GUID", nil
 }

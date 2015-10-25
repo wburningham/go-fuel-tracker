@@ -8,18 +8,23 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// var (
-// 	entryDAO FuelEntryDAO
-// )
-
 func getEntry(res http.ResponseWriter, req *http.Request) {
-	id, err := mux.Vars(req)["id"]
-	if !err {
+	id, ok := mux.Vars(req)["id"]
+	if !ok {
 		http.Error(res, "id missing in URL path", http.StatusBadRequest)
 		return
 	}
-	// TODO use a DAO
-	fmt.Fprintf(res, "Entry for: %s", id)
+	// TODO I don't want to creat this every time, I want a global var so I can test this
+	entryDAO := InMemoryFuelEntryDAO{}
+
+	entry, err := entryDAO.GetById(id)
+	if err != nil {
+		http.Error(res, "id missing in URL path", http.StatusInternalServerError)
+		return
+	}
+
+	// TODO write to JSON
+	fmt.Fprintf(res, "Entry for: %s", entry.ToString())
 }
 
 func createEntry(res http.ResponseWriter, req *http.Request) {
@@ -35,5 +40,6 @@ func createEntry(res http.ResponseWriter, req *http.Request) {
 	}
 	// TODO use a DAO
 
+	// TODO write to JSON
 	fmt.Fprintf(res, "New entry ID: NEW GUID")
 }

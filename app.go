@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	// "sync"
 
 	"github.com/gorilla/mux"
 )
@@ -17,8 +16,10 @@ type Entry struct {
 	Distance int    `json:"distance"`
 }
 
-// TODO do I need a mutex here or in the DAO?
-// var mx sync.RWMutex
+func (e *Entry) ToString() string {
+	return fmt.Sprintf("Id: %s, Gallons: %d, Distance: %d", e.Id, e.Gallons, e.Distance)
+
+}
 
 // TODO how to use a logger
 // TODO how to use an appError
@@ -41,6 +42,8 @@ func main() {
 	apiRouter.HandleFunc("/entries/{id}", getEntry).Methods("GET")
 	apiRouter.HandleFunc("/entries", createEntry).Methods("POST")
 	// apiRouter.HandleFunc("/entries/{id}", deleteEntry).Methods("DELETE")
+
+	// TODO uiRouter
 
 	// TODO how to read in a port?
 	log.Printf("serving on port 8080")
