@@ -35,17 +35,17 @@ func serialPrinting() {
 	oddStr, err := oddToString()
 	if err != nil {
 		log.Fatal(err)
-	} else {
-		log.Println(oddStr)
+		return
 	}
+	log.Println(oddStr)
 
 }
 
 func concurrentPrinting() {
 	var evenStr, oddStr string
 
-	// important to use a buffered channel so that the routines are
-	// guaranteed not to block.
+	// important to use a buffered channel
+	// so that the routines are guaranteed not to block
 	errorChan := make(chan error, 2)
 
 	go func() {
