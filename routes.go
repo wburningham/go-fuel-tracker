@@ -8,6 +8,8 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// TODO my handler names are lowerCase to be private,
+// but all interfaces and structs are UpperCase
 func getEntry(res http.ResponseWriter, req *http.Request) {
 	id, ok := mux.Vars(req)["id"]
 	if !ok {

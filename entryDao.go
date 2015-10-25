@@ -6,11 +6,12 @@ import (
 
 // TODO do I need a mutex here for an in memory DAO
 
+// TODO should and why are interfaces capital? for `var entry Entry`?
 type EntryDAO interface {
 	GetById(id string) (Entry, error)
-	// getAll() []Entry..?, error
+	// GetAll() []Entry..?, error
 	AddEntry(entry Entry) (string, error)
-	// deleteEntry(is string) error
+	// DeleteEntry(is string) error
 }
 
 type InMemoryFuelEntryDAO struct{}
