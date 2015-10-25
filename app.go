@@ -21,6 +21,14 @@ func (e *Entry) ToString() string {
 
 }
 
+var (
+	entryDb EntryDb
+)
+
+func init() {
+	entryDb = newInMemoryFuelEntryDb()
+}
+
 // TODO how to use a logger
 // TODO how to use an appError
 
