@@ -8,8 +8,6 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// TODO my handler names are lowerCase to be private,
-// but all interfaces and structs are UpperCase
 func getEntry(res http.ResponseWriter, req *http.Request) {
 	id, ok := mux.Vars(req)["id"]
 	if !ok {
@@ -19,7 +17,7 @@ func getEntry(res http.ResponseWriter, req *http.Request) {
 
 	entry, err := entryDb.GetById(id)
 	if err != nil {
-		http.Error(res, "id missing in URL path", http.StatusInternalServerError)
+		http.Error(res, "Unable to lookup entry", http.StatusNotFound)
 		return
 	}
 
@@ -38,8 +36,31 @@ func createEntry(res http.ResponseWriter, req *http.Request) {
 		http.Error(res, "Invalid POST body", http.StatusBadRequest)
 		return
 	}
-	// TODO use a Db
+
+	guid, err := entryDb.AddEntry(&entry)
+	if err != nil {
+		http.Error(res, "Unable to lookup entry", http.StatusInternalServerError)
+		return
+	}
 
 	// TODO write to JSON
-	fmt.Fprintf(res, "New entry ID: NEW GUID")
+	fmt.Fprintf(res, "New entry Id: %s", guid)
+}
+
+func deleteEntry(res http.ResponseWriter, req *http.Request) {
+	id, ok := mux.Vars(req)["id"]
+	if !ok {
+		http.Error(res, "id missing in URL path", http.StatusBadRequest)
+		return
+	}
+
+	err := entryDb.DeleteEntry(id)
+	if err != nil {
+		http.Error(res, "unable to delete entry", http.StatusInternalServerError)
+		return
+	}
+
+	// TODO write to JSON
+	fmt.Fprintf(res, "Deleted: %s", id)
+
 }

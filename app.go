@@ -8,19 +8,6 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// TODO should and why are structs capital? for `var entry Entry`?
-type Entry struct {
-	// TODO should and why to make these Capital?
-	Id       string `json:"id"`
-	Gallons  int    `json:"gallons"`
-	Distance int    `json:"distance"`
-}
-
-func (e *Entry) ToString() string {
-	return fmt.Sprintf("Id: %s, Gallons: %d, Distance: %d", e.Id, e.Gallons, e.Distance)
-
-}
-
 var (
 	entryDb EntryDb
 )
@@ -49,7 +36,7 @@ func main() {
 	// apiRouter.HandleFunc("/entries", getEntries).Methods("GET")
 	apiRouter.HandleFunc("/entries/{id}", getEntry).Methods("GET")
 	apiRouter.HandleFunc("/entries", createEntry).Methods("POST")
-	// apiRouter.HandleFunc("/entries/{id}", deleteEntry).Methods("DELETE")
+	apiRouter.HandleFunc("/entries/{id}", deleteEntry).Methods("DELETE")
 
 	// TODO uiRouter
 
